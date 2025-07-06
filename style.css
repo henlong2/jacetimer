@@ -1,0 +1,274 @@
+body {
+    display: flex;
+    flex-direction: column; /* 세로 정렬 */
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* 뷰포트 높이의 100% */
+    background-color: #2c3e50; /* 어두운 배경 */
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #ecf0f1; /* 밝은 텍스트 색상 */
+    overflow: hidden; /* 스크롤바가 생기지 않도록 */
+    padding: 15px; /* 작은 화면에서 여백 추가 */
+    box-sizing: border-box; /* 패딩이 너비에 포함되도록 */
+}
+
+.main-title {
+    margin-bottom: 25px; /* 타이머 컨테이너와의 간격 */
+    text-align: center;
+    color: #f39c12; /* 제목 색상 (주황색 계열) */
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5); /* 그림자 추가 */
+    padding: 0 10px; /* 좌우 패딩으로 모바일에서 잘리지 않게 */
+}
+
+.main-title h1 {
+    font-size: 2.8em; /* 제목 글자 크기 */
+    margin: 0; /* h1 기본 마진 제거 */
+    letter-spacing: 2px; /* 자간 조절 */
+    word-break: keep-all; /* 단어가 잘리지 않게 */
+}
+
+.timer-container {
+    display: flex;
+    flex-direction: column; /* 세로 정렬 */
+    align-items: center;
+    gap: 20px;
+    padding: 30px;
+    background-color: #34495e; /* 컨테이너 배경 */
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    width: 100%; /* 너비를 100%로 설정하여 모바일에서 꽉 차게 */
+    max-width: 400px; /* 최대 너비 설정 (태블릿 등) */
+    box-sizing: border-box; /* 패딩이 너비에 포함되도록 */
+}
+
+.player-timer {
+    width: 100%; /* 모바일에서 너비를 꽉 채우도록 */
+    height: 180px;
+    /* 기본 배경색은 각 ID 선택자에서 정의 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out, transform 0.1s ease-out;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    user-select: none;
+    box-sizing: border-box;
+}
+
+.player-timer:hover:not(.active):not(.time-up) {
+    background-color: #3f5872;
+    transform: translateY(-3px);
+}
+
+/* 활성 타이머에 대한 기본 스타일 */
+.player-timer.active {
+    /* 각 ID 선택자에서 활성화 색상 정의 */
+    box-shadow: 0 6px 20px rgba(39, 174, 96, 0.6);
+    transform: scale(1.02);
+}
+
+/* 상단 타이머 (#player1-timer)의 배경색 및 활성화 색상 - 웜.JPG 이미지의 1번 스타일 (이제 위에 배치됨) */
+.player-timer#player1-timer {
+    background-color: #283747; /* 웜.JPG 1번 타이머의 배경색 */
+}
+
+/* player1-timer가 활성화되었을 때 (상단 타이머) */
+.player-timer#player1-timer.active {
+    background-color: #27ae60; /* 활성화 색상 (녹색) 유지 */
+}
+
+/* 하단 타이머 (#player2-timer)의 배경색 및 활성화 색상 - 웜.JPG 이미지의 2번 스타일 (이제 아래에 배치됨) */
+.player-timer#player2-timer {
+    background-color: #2c3e50; /* 웜.JPG 2번 타이머의 배경색 (어두운 네이비 계열) */
+}
+
+/* player2-timer가 활성화되었을 때 (하단 타이머) */
+.player-timer#player2-timer.active {
+    background-color: #5cb85c; /* 활성화 색상 유지 (녹색 계열) */
+}
+
+
+.player-timer.time-up {
+    background-color: #e74c3c; /* 시간 초과 색상 */
+    box-shadow: 0 6px 20px rgba(231, 76, 60, 0.6);
+    cursor: default;
+}
+
+/* 상단 타이머 (#player1-timer)의 시간 표시 스타일 (180도 회전) - 웜.JPG 이미지의 1번처럼 텍스트 180도 회전 */
+.player-timer#player1-timer .time-display {
+    font-size: 5em;
+    font-weight: bold;
+    color: #ecf0f1; /* 밝은 흰색 */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+    min-width: 200px;
+    text-align: center;
+    transform: rotate(180deg); /* 180도 회전 적용 */
+}
+
+/* 하단 타이머 (#player2-timer)의 시간 표시 스타일 (회전 없음) - 웜.JPG 이미지의 2번처럼 텍스트 회전 없음 */
+.player-timer#player2-timer .time-display {
+    font-size: 5em;
+    font-weight: bold;
+    color: #ecf0f1;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+    min-width: 200px;
+    text-align: center;
+    transform: rotate(0deg); /* 회전 제거 */
+}
+
+.controls {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap; /* 버튼이 너무 많을 때 줄바꿈 */
+    justify-content: center; /* 버튼 가운데 정렬 */
+}
+
+.controls button {
+    padding: 15px 30px;
+    font-size: 1.2em;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out, transform 0.1s ease-in-out, box-shadow 0.2s ease-in-out;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+    color: white;
+}
+
+.controls button:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+}
+
+.controls button:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.controls button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+#start-pause-btn {
+    background-color: #3498db;
+}
+
+#start-pause-btn:hover:not(:disabled) {
+    background-color: #2980b9;
+}
+
+#reset-btn {
+    background-color: #95a5a6;
+}
+
+#reset-btn:hover:not(:disabled) {
+    background-color: #7f8c8d;
+}
+
+/* 시간 프리셋 버튼 스타일 */
+.time-presets {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    flex-wrap: wrap; /* 작은 화면에서 줄바꿈 */
+    justify-content: center;
+    width: 100%; /* 모바일에서 너비를 꽉 채우도록 */
+}
+
+.time-btn {
+    padding: 8px 15px;
+    font-size: 0.9em;
+    font-weight: bold;
+    border: 1px solid #7f8c8d;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #617385;
+    color: white;
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+    flex-grow: 1; /* 버튼들이 공간을 균등하게 차지하도록 */
+    max-width: calc(50% - 5px); /* 두 개의 버튼이 한 줄에 오도록 */
+    box-sizing: border-box;
+}
+
+.time-btn:hover {
+    background-color: #7f8c8d;
+    transform: translateY(-2px);
+}
+
+.time-btn.selected {
+    background-color: #f39c12; /* 선택된 버튼 배경색 (주황색) */
+    border-color: #e67e22;
+    box-shadow: 0 2px 8px rgba(243, 156, 18, 0.5);
+    transform: scale(1.05);
+}
+
+
+/* --- 모바일 화면을 위한 미디어 쿼리 (추가 및 강화) --- */
+@media (max-width: 480px) { /* 주로 세로가 짧은 폰을 위한 더 작은 해상도 */
+    body {
+        padding: 10px; /* 패딩 더 줄임 */
+    }
+    .main-title {
+        margin-bottom: 15px;
+    }
+    .main-title h1 {
+        font-size: 2.2em; /* 제목 크기 더 줄임 */
+    }
+    .timer-container {
+        padding: 20px; /* 컨테이너 패딩 줄임 */
+        gap: 15px; /* 간격 줄임 */
+    }
+    .player-timer {
+        height: 140px; /* 타이머 높이 줄임 */
+    }
+    /* #player1-timer (현재 상단) 폰트 크기 조정 */
+    .player-timer#player1-timer .time-display {
+        font-size: 4em;
+    }
+    /* #player2-timer (현재 하단) 폰트 크기 조정 */
+    .player-timer#player2-timer .time-display {
+        font-size: 4em;
+    }
+    .controls button {
+        padding: 10px 20px;
+        font-size: 1em;
+        flex-grow: 1; /* 버튼이 한 줄에 꽉 차도록 */
+        max-width: none; /* 최대 너비 제한 해제 */
+    }
+    .time-presets {
+        gap: 8px;
+    }
+    .time-btn {
+        padding: 7px 12px;
+        font-size: 0.85em;
+        max-width: calc(50% - 4px); /* 여전히 두 개씩 */
+    }
+}
+
+@media (max-width: 320px) { /* 아주 작은 폰 화면을 위한 */
+    .main-title h1 {
+        font-size: 1.8em;
+    }
+    .player-timer {
+        height: 100px;
+    }
+    /* #player1-timer (현재 상단) 폰트 크기 조정 */
+    .player-timer#player1-timer .time-display {
+        font-size: 3em;
+    }
+    /* #player2-timer (현재 하단) 폰트 크기 조정 */
+    .player-timer#player2-timer .time-display {
+        font-size: 3em;
+    }
+    .controls button {
+        padding: 8px 15px;
+        font-size: 0.9em;
+    }
+    .time-btn {
+        padding: 5px 10px;
+        font-size: 0.75em;
+    }
+}

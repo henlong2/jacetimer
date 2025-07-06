@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>유민 체스 타이머</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="main-title">
+        <h1>유민 체스 타이머</h1>
+    </header>
+
+    <div class="timer-container">
+        <div class="player-timer" id="player1-timer">
+            <div class="time-display">10:00</div>
+        </div>
+
+        <div class="controls">
+            <button id="start-pause-btn">시작</button>
+            <button id="reset-btn">재설정</button>
+        </div>
+
+        <div class="time-presets">
+            <button class="time-btn" data-time="300">5분</button>
+            <button class="time-btn" data-time="600">10분</button>
+            <button class="time-btn" data-time="900">15분</button>
+            <button class="time-btn" data-time="1200">20분</button>
+        </div>
+
+        <div class="player-timer" id="player2-timer">
+            <div class="time-display">10:00</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
